@@ -1,19 +1,24 @@
 const express = require('express');
-require('dotenv').config();
 const cors = require('cors');
-const MongoClient = require('mongodb').MongoClient;
+require('dotenv').config();
+const { MongoClient } = require('mongodb');
 
 // middleware
-const app = express()
-app.use(cors())
+const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.send('Hello World!, We are code hunter!')
-})
+    res.send('Reduce Fluffy site is under development');
+});
 
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.8aajs.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect((err) => {
+    const collection = client.db('test').collection('devices');
+    // client.close();
+});
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, ()=> console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
