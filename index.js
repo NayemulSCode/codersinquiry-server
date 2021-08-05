@@ -43,6 +43,13 @@ client.connect((err) => {
           console.log(result)
       })
     })
+    // get all users
+    app.get('/user',(req, res)=>{
+      usersCollection.find({})
+      .toArray((err, results) =>{
+        res.send(results);
+      })
+    })
     console.log("db connected!!");
 });
 
