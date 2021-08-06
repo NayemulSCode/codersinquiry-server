@@ -63,6 +63,13 @@ client.connect((err) => {
     })
   })
 
+app.get('/all', (req, res) => {
+  courseCollection.find()
+  .toArray((err, allData) => {
+    res.send(allData)
+  })
+})
+
 
 
 // End All courses
