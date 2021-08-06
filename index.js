@@ -7,6 +7,7 @@ import authRouter from './routes/auth.js';
 
 import {MongoClient} from 'mongodb';
 import dotenv from 'dotenv';
+import { count } from 'console';
 
 dotenv.config();
 // db connection
@@ -33,6 +34,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@clu
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect((err) => {
     const usersCollection = client.db('reduceFluffy').collection('users');
+    const courseCollection = client.db('reduceFluffy').collection('courses');
     //create service order
     app.post('/users',(req, res)=>{
       const user = req.body;
@@ -51,7 +53,26 @@ client.connect((err) => {
       })
     })
     console.log("db connected!!");
+
+ //AllCourses
+  app.post('/courses', (req, res) => {
+   const course = req.body;
+   courseCollection.insertOne(course)
+    .then(getResult => {
+      res.send(getResult.insertedCount > 0)
+    })
+  })
+
+
+
+// End All courses
+
 });
+
+
+
+
+
 
 
 app.use((err, req, res, next) => {
