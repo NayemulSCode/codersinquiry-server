@@ -29,7 +29,7 @@ dotenv.config();
 
   // app.use("/api/users",authRouter);
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.8aajs.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://reduceFluffy:reduceFluffy072021@cluster0.8aajs.mongodb.net/reduceFluffy?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect((err) => {
     const usersCollection = client.db('reduceFluffy').collection('users');
