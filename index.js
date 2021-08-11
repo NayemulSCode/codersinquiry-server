@@ -73,16 +73,9 @@ app.get('/all', (req, res) => {
   })
 })
 
-
-
 // End All courses
 
 });
-
-
-
-
-
 
 
 app.use((err, req, res, next) => {
@@ -96,6 +89,6 @@ app.get('/', (req, res) => {
 app.get('/questions', (req, res) => {
     res.send('Public have no questions about us!!');
 })
-
-const PORT = process.env.PORT || 5000;
+const port = 5000
+const PORT = process.env.PORT || port;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
