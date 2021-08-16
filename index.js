@@ -58,17 +58,18 @@ client.connect((err) => {
     console.log("db connected!!");
 
  //AllCourses
-  app.post('/courses', (req, res) => {
-   const course = req.body;
-   courseCollection.insertOne(course)
+  app.post('/all', (req, res) => {
+    const heading = req.body.heading;
+    const code= req.body.code;
+    const details = req.body.details;
+     courseCollection.insertOne({heading, code, details})
     .then(getResult => {
       res.send(getResult.insertedCount > 0)
     })
   })
 
-app.get('/all', (req, res) => {
-  courseCollection.find()
-  .toArray((err, allData) => {
+app.get('/getJavascript', (req, res) => {
+  courseCollection.find().limit(20).toArray((err, allData) => {
     res.send(allData)
   })
 })
