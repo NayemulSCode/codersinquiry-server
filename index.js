@@ -69,11 +69,23 @@ client.connect((err) => {
   })
 
 app.get('/getJavascript', (req, res) => {
-  courseCollection.find().limit(20).toArray((err, allData) => {
-    res.send(allData)
+  courseCollection.find().limit(20).toArray((err, js) => {
+    res.send(js)
   })
 })
 
+
+app.get('/getPython', (req, res) => {
+  courseCollection.find().skip(20).limit(20).toArray((err, python) => {
+    res.send(python)
+  })
+})
+
+app.get('/reactJs', (req, res) => {
+  courseCollection.find().skip(40).toArray((err, react) => {
+    res.send(react)
+  })
+})
 // End All courses
 
 });
