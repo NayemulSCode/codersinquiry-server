@@ -57,6 +57,7 @@ client.connect((err) => {
     })
     console.log("db connected!!");
 
+    
  //AllCourses
   app.post('/all', (req, res) => {
     const heading = req.body.heading;
@@ -81,12 +82,22 @@ app.get('/getPython', (req, res) => {
   })
 })
 
-app.get('/reactJs', (req, res) => {
+app.get('/getReactJs', (req, res) => {
   courseCollection.find().skip(40).toArray((err, react) => {
     res.send(react)
   })
 })
+
+
+
 // End All courses
+
+
+
+
+
+
+
 
 });
 
