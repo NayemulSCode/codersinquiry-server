@@ -4,11 +4,12 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import config from './config.js';
 import authRouter from './routes/auth.js';
+const filesUpload = require('express-fileupload')
 
 import {MongoClient} from 'mongodb';
 import dotenv from 'dotenv';
 import { count } from 'console';
-
+app.use(filesUpload())
 dotenv.config();
 // db connection
 // const mongodbUrl = config.MONGODB_URL;
