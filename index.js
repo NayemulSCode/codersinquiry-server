@@ -4,10 +4,12 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import config from './config.js';
 import authRouter from './routes/auth.js';
+const filesUpload = require('express-fileupload')
 
 import {MongoClient} from 'mongodb';
 import dotenv from 'dotenv';
-
+import { count } from 'console';
+app.use(filesUpload())
 dotenv.config();
 // db connection
 // const mongodbUrl = config.MONGODB_URL;
@@ -29,10 +31,14 @@ dotenv.config();
 
   // app.use("/api/users",authRouter);
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.8aajs.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://reduceFluffy:reduceFluffy072021@cluster0.8aajs.mongodb.net/reduceFluffy?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect((err) => {
+    console.log('error:', err);
     const usersCollection = client.db('reduceFluffy').collection('users');
+    const courseCollection = client.db('reduceFluffy').collection('courses');
+
+
     //create service order
     app.post('/users',(req, res)=>{
       const user = req.body;
@@ -43,7 +49,57 @@ client.connect((err) => {
           console.log(result)
       })
     })
+    // get all users
+    app.get('/user',(req, res)=>{
+      usersCollection.find({})
+      .toArray((err, results) =>{
+        res.send(results);
+      })
+    })
     console.log("db connected!!");
+
+    
+ //AllCourses
+  app.post('/all', (req, res) => {
+    const heading = req.body.heading;
+    const code= req.body.code;
+    const details = req.body.details;
+     courseCollection.insertOne({heading, code, details})
+    .then(getResult => {
+      res.send(getResult.insertedCount > 0)
+    })
+  })
+
+app.get('/getJavascript', (req, res) => {
+  courseCollection.find().limit(20).toArray((err, js) => {
+    res.send(js)
+  })
+})
+
+
+app.get('/getPython', (req, res) => {
+  courseCollection.find().skip(20).limit(20).toArray((err, python) => {
+    res.send(python)
+  })
+})
+
+app.get('/getReactJs', (req, res) => {
+  courseCollection.find().skip(40).toArray((err, react) => {
+    res.send(react)
+  })
+})
+
+
+
+// End All courses
+
+
+
+
+
+
+
+
 });
 
 
@@ -58,6 +114,6 @@ app.get('/', (req, res) => {
 app.get('/questions', (req, res) => {
     res.send('Public have no questions about us!!');
 })
-
-const PORT = process.env.PORT || 5000;
+const port = 5000
+const PORT = process.env.PORT || port;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
