@@ -6,7 +6,7 @@ import config from './config.js';
 import authRouter from './routes/auth.js';
 // const filesUpload = require('express-fileupload');
 
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
 import { count } from 'console';
 // app.use(filesUpload());
@@ -54,6 +54,26 @@ client.connect((err) => {
     app.post('/addQuestion', (req, res) => {
         questionsCollection.insertOne(req.body).then((result) => {
             res.send(result.insertedCount > 0);
+            console.log(result);
+        });
+    });
+
+    // post article
+    app.post('/addArticle', (req, res) => {
+        articlesCollection.insertOne(req.body).then((result) => {
+            res.send(result.insertedCount > 0);
+            console.log(result);
+        });
+    });
+
+    /*** PATCH ***/
+    // add question's answer
+    app.patch('/questions/:id', (req, res) => {
+        console.log(req.body);
+        console.log(req.params.id);
+        questionsCollection.updateOne({ _id: ObjectId(req.params.id) }, { $push: { answers: req.body } })
+        .then((result) => {
+            res.send(result.modifiedCount > 0);
             console.log(result);
         });
     });
